@@ -106,8 +106,6 @@ Mattermost port 8080 is exposed.
 
 
 ```yaml
-version: '3.9'
-
 services:
 
   mattermost:
