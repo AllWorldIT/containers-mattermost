@@ -1,0 +1,9 @@
+{
+    "BleveSettings": {
+        "IndexDir": "/var/lib/mattermost/bleve",
+        "EnableIndexing": true,
+        "EnableSearching": true,
+        "EnableAutocomplete": true,
+        "BatchSize": 10000
+    }
+}

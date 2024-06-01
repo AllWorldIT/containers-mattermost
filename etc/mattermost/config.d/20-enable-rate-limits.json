@@ -1,0 +1,8 @@
+{
+    "RateLimitSettings": {
+        "Enable": true,
+        "VaryByRemoteAddr": false,
+        "VaryByUser": true,
+        "VaryByHeader": "X-Real-IP"
+    }
+}
