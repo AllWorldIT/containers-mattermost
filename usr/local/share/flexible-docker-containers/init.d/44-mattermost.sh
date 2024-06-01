@@ -113,6 +113,11 @@ cat <<EOF > /etc/mattermost/config.d/50-database.json
 	}
 }
 EOF
+# Copy Bleve config over
+cp -f /opt/mattermost/config.d/20-bleve.json /etc/mattermost/config.d/20-bleve.json
+cp -f /opt/mattermost/config.d/20-enable-rate-limits.json /etc/mattermost/config.d/20-enable-rate-limits.json
+cp -f /opt/mattermost/config.d/20-smtp.json /etc/mattermost/config.d/20-smtp.json
+cp -f /opt/mattermost/config.d/20-no-file-logging.json /etc/mattermost/config.d/20-no-file-logging.json
 # Set permissions on /etc/mattermost/config.d
 find /etc/mattermost/config.d -type f -print0 | xargs -0 chmod 0640
 find /etc/mattermost/config.d -type f -print0 | xargs -0 chown root:mattermost
@@ -132,7 +137,7 @@ chown root:mattermost /etc/mattermost/config/config.json
 
 # Set up /var/lib/mattermost
 # NK: must stay in sync with Dockerfile
-for d in files compliance plugins client/plugins; do
+for d in bleve files compliance plugins client/plugins; do
 	if [ ! -d "/var/lib/mattermost/$d" ]; then
 		install -dm0775 -o root -g mattermost "/var/lib/mattermost/$d"
 	fi

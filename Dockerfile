@@ -159,6 +159,7 @@ RUN set -eux; \
 	ln -s "/var/lib/mattermost/client/plugins" "$pkgdir/opt/mattermost/client/plugins"; \
 	# Set up /var/lib/mattermost
 	# NK: must stay in sync with init
+	install -dm0770 "$pkgdir/var/lib/mattermost/bleve"; \
 	install -dm0770 "$pkgdir/var/lib/mattermost/files"; \
 	install -dm0770 "$pkgdir/var/lib/mattermost/compliance"; \
 	install -dm0770 "$pkgdir/var/lib/mattermost/plugins"; \
@@ -214,6 +215,10 @@ RUN set -eux; \
 
 
 # Mattermost
+COPY etc/mattermost/config.d/20-bleve.json /opt/mattermost/config.d/20-bleve.json
+COPY etc/mattermost/config.d/20-enable-rate-limits.json /opt/mattermost/config.d/20-enable-rate-limits.json
+COPY etc/mattermost/config.d/20-smtp.json /opt/mattermost/config.d/20-smtp.json
+COPY etc/mattermost/config.d/20-no-file-logging.json /opt/mattermost/config.d/20-no-file-logging.json
 COPY etc/supervisor/conf.d/mattermost-server.conf /etc/supervisor/conf.d/mattermost-server.conf
 COPY etc/supervisor/conf.d/mattermost-jobserver.conf /etc/supervisor/conf.d/mattermost-jobserver.conf
 COPY usr/local/share/flexible-docker-containers/healthcheck.d/44-mattermost.sh /usr/local/share/flexible-docker-containers/healthcheck.d
