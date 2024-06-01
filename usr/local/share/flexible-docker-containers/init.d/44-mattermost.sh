@@ -61,7 +61,7 @@ case "$MATTERMOST_DATABASE_TYPE" in
 		database_name=$MYSQL_DATABASE
 		database_username=$MYSQL_USER
 		database_password=$MYSQL_PASSWORD
-		database_params="?charset=utf8mb4,utf8&collation=utf8mb4_unicode_520_ci"
+		database_params="?charset=utf8mb4,utf8&collation=utf8mb4_general_ci"
 		database_datasource="$database_username:$database_password@$database_host/$database_name$database_params"
 		;;
 
