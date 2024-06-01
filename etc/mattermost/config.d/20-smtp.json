@@ -1,0 +1,7 @@
+{
+    "EmailSettings": {
+        "SMTPServer": "localhost",
+        "SMTPPort": "25",
+        "EnablePreviewModeBanner": false
+    }
+}
