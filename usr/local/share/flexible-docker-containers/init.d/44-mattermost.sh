@@ -65,7 +65,7 @@ case "$MATTERMOST_DATABASE_TYPE" in
 		database_datasource="$database_username:$database_password@$database_host/$database_name$database_params"
 		;;
 
-	postgresql)
+	postgres|postgresql)
 		# Check for a few things we need
 		if [ -z "$POSTGRES_DATABASE" ]; then
 			fdc_error "Environment variable 'POSTGRES_DATABASE' is required"
@@ -105,7 +105,7 @@ esac
 
 
 # Set up our database settings
-cat <<EOF > /etc/mattermost/config.d/10-database.json
+cat <<EOF > /etc/mattermost/config.d/50-database.json
 {
 	"SqlSettings": {
 		"DriverName": "$database_type",
@@ -119,13 +119,13 @@ find /etc/mattermost/config.d -type f -print0 | xargs -0 chown root:mattermost
 # Merge all config files
 # shellcheck disable=SC2094
 (
-	echo /opt/mattermost/config/default.json
-	find /etc/mattermost/config.d -type f -name '*.json'
-
+	find /etc/mattermost/config.d -type f -name '*.json' | sort
 	if [ -e /etc/mattermost/config/config.json ]; then
 		echo /etc/mattermost/config/config.json
 	fi
-) | xargs jq -s add > /etc/mattermost/config/config.json
+) | xargs jq -s add > /etc/mattermost/config/config.json.new
+# Move new config file in place
+mv /etc/mattermost/config/config.json.new /etc/mattermost/config/config.json
 # Set permissions
 chmod 0660 /etc/mattermost/config/config.json
 chown root:mattermost /etc/mattermost/config/config.json
