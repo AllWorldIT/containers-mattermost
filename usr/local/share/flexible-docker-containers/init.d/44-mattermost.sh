@@ -175,7 +175,7 @@ elif [ "$database_type" = "mysql" ]; then
 
 	while true; do
 		fdc_notice "Mattermost waiting for MySQL server '$MYSQL_HOST'..."
-		if mysqladmin ping --host "$MYSQL_HOST" --user "$MYSQL_USER" --silent --connect-timeout=2; then
+		if mariadb-admin ping --silent --skip-ssl --host "$MYSQL_HOST" --user "$MYSQL_USER" --connect-timeout=2; then
 			fdc_notice "MySQL server is UP, continuing"
 			break
 		fi
