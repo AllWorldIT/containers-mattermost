@@ -22,7 +22,7 @@
 FROM registry.conarx.tech/containers/alpine/edge as builder
 
 
-ENV MATTERMOST_VER=9.8.0
+ENV MATTERMOST_VER=9.9.1
 
 
 
