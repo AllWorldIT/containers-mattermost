@@ -22,7 +22,7 @@
 FROM registry.conarx.tech/containers/alpine/3.20 as builder
 
 
-ENV MATTERMOST_VER=9.9.1
+ENV MATTERMOST_VER=9.9.2
 
 
 
