@@ -22,7 +22,7 @@
 FROM registry.conarx.tech/containers/alpine/3.20 as builder
 
 
-ENV MATTERMOST_VER=9.9.2
+ENV MATTERMOST_VER=9.10.1
 
 
 
@@ -85,7 +85,7 @@ RUN set -eux; \
 	# Modify npm commands to always use srcdir cache
     sed -r -i Makefile \
         -e "/^\tnpm /s!npm!npm --cache '$srcdir/npm-cache' --no-audit --no-fund!"; \
-    make -j $(nprocs) -l 8 node_modules -W package.json
+    make -j $(nproc) -l 8 node_modules -W package.json
 
 # Build Mattermost
 RUN set -eux; \
@@ -101,7 +101,7 @@ RUN set -eux; \
     export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"; \
     export _config=github.com/mattermost/mattermost/server/public/model; \
     # https://github.com/mattermost/mattermost/issues/24582
-    make -j $(nprocs) -l 8 setup-go-work; \
+    make -j $(nproc) -l 8 setup-go-work; \
     go build -v \
 		-ldflags "-linkmode external \
             -X \"$_config.BuildDate=$(date --utc +"%Y-%m-%d %H:%M:%S")\" \
@@ -113,7 +113,7 @@ RUN set -eux; \
     cd ../webapp; \
     npm run build; \
     cd ../server; \
-    make -j $(nprocs) -l 8 package-prep
+    make -j $(nproc) -l 8 package-prep
 
 # Install Mattermost
 RUN set -eux; \
