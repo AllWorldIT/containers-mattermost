@@ -19,10 +19,11 @@
 # IN THE SOFTWARE.
 
 
-FROM registry.conarx.tech/containers/alpine/edge as builder
+FROM registry.conarx.tech/containers/alpine/3.20 as builder
 
+COPY --from=registry.conarx.tech/containers/nodejs/3.20:22.9.0 /opt/nodejs-22.9.0 /opt/nodejs-22.9.0
 
-ENV MATTERMOST_VER=10.0.0
+ENV MATTERMOST_VER=10.0.1
 
 
 
@@ -30,6 +31,10 @@ ENV MATTERMOST_VER=10.0.0
 RUN set -eux; \
 	true "Installing build dependencies"; \
 	apk add --no-cache \
+		# For NodeJS
+		icu \
+		libuv \
+		# For Build
 		build-base \
 		autoconf \
 		automake \
@@ -43,8 +48,6 @@ RUN set -eux; \
 		moreutils \
 		curl \
 		libpng-dev \
-		\
-		nodejs npm \
 		\
 		go
 
@@ -61,8 +64,15 @@ RUN set -eux; \
 # Prepare Mattermost
 RUN set -eux; \
 	cd build; \
-	srcdir="$(pwd)"; \
+	# Setup environment
+	for i in /opt/*/ld-musl-x86_64.path; do \
+		cat "$i" >> /etc/ld-musl-x86_64.path; \
+	done; \
+	for i in /opt/*/PATH; do \
+		export PATH="$(cat "$i"):$PATH"; \
+	done; \
 	# Extract
+	srcdir="$(pwd)"; \
 	tar -zxf "mattermost-$MATTERMOST_VER.tar.gz"; \
 	cd "mattermost-$MATTERMOST_VER"; \
 	# Server
@@ -91,6 +101,10 @@ RUN set -eux; \
 RUN set -eux; \
 	cd build; \
 	cd "mattermost-$MATTERMOST_VER"; \
+	# Setup environment
+	for i in /opt/*/PATH; do \
+		export PATH="$(cat "$i"):$PATH"; \
+	done; \
 	# Server
     cd server; \
 	. /etc/buildflags; \
@@ -186,15 +200,14 @@ RUN set -eux; \
 
 
 
-FROM registry.conarx.tech/containers/postfix/edge
+FROM registry.conarx.tech/containers/postfix/3.20
 
 
 ARG VERSION_INFO=
 
 LABEL org.opencontainers.image.authors   "Nigel Kukard <nkukard@conarx.tech>"
-LABEL org.opencontainers.image.version   "edge"
-LABEL org.opencontainers.image.base.name "registry.conarx.tech/containers/postfix/edge"
-
+LABEL org.opencontainers.image.version   "3.20"
+LABEL org.opencontainers.image.base.name "registry.conarx.tech/containers/postfix/3.20"
 
 # Copy in built binaries
 COPY --from=builder /build/mattermost-root /
@@ -202,6 +215,7 @@ COPY --from=builder /build/mattermost-root /
 RUN set -eux; \
 	true "Utilities"; \
 	apk add --no-cache \
+		# For Mattermost
 		curl \
 		jq \
 		mariadb-client \
