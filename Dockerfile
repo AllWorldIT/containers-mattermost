@@ -21,9 +21,9 @@
 
 FROM registry.conarx.tech/containers/alpine/3.20 as builder
 
-COPY --from=registry.conarx.tech/containers/nodejs/3.20:22.11.0 /opt/nodejs-22.11.0 /opt/nodejs-22.11.0
+COPY --from=registry.conarx.tech/containers/nodejs/3.20:22.12.0 /opt/nodejs-22.12.0 /opt/nodejs-22.12.0
 
-ENV MATTERMOST_VER=10.1.3
+ENV MATTERMOST_VER=10.2.1
 
 
 
