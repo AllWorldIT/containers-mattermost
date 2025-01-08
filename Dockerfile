@@ -205,9 +205,9 @@ FROM registry.conarx.tech/containers/postfix/edge
 
 ARG VERSION_INFO=
 
-LABEL org.opencontainers.image.authors   "Nigel Kukard <nkukard@conarx.tech>"
-LABEL org.opencontainers.image.version   "edge"
-LABEL org.opencontainers.image.base.name "registry.conarx.tech/containers/postfix/edge"
+LABEL org.opencontainers.image.authors   = "Nigel Kukard <nkukard@conarx.tech>"
+LABEL org.opencontainers.image.version   = "edge"
+LABEL org.opencontainers.image.base.name = "registry.conarx.tech/containers/postfix/edge"
 
 # Copy in built binaries
 COPY --from=builder /build/mattermost-root /
