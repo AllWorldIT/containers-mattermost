@@ -21,7 +21,7 @@
 
 FROM registry.conarx.tech/containers/alpine/edge as builder
 
-COPY --from=registry.conarx.tech/containers/nodejs/3.20:22.12.0 /opt/nodejs-22.12.0 /opt/nodejs-22.12.0
+COPY --from=registry.conarx.tech/containers/nodejs/3.21:22.12.0 /opt/nodejs-22.12.0 /opt/nodejs-22.12.0
 
 ENV MATTERMOST_VER=10.3.1
 
@@ -206,8 +206,8 @@ FROM registry.conarx.tech/containers/postfix/edge
 ARG VERSION_INFO=
 
 LABEL org.opencontainers.image.authors   = "Nigel Kukard <nkukard@conarx.tech>"
-LABEL org.opencontainers.image.version   = "3.20"
-LABEL org.opencontainers.image.base.name = "registry.conarx.tech/containers/postfix/3.20"
+LABEL org.opencontainers.image.version   = "3.21"
+LABEL org.opencontainers.image.base.name = "registry.conarx.tech/containers/postfix/3.21"
 
 # Copy in built binaries
 COPY --from=builder /build/mattermost-root /
