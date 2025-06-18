@@ -23,7 +23,7 @@ FROM registry.conarx.tech/containers/alpine/3.22 as builder
 
 COPY --from=registry.conarx.tech/containers/nodejs/3.22:22.16.0 /opt/nodejs-22.16.0 /opt/nodejs-22.16.0
 
-ENV MATTERMOST_VER=10.8.1
+ENV MATTERMOST_VER=10.9.1
 
 
 
