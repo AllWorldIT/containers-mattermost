@@ -21,9 +21,9 @@
 
 FROM registry.conarx.tech/containers/alpine/edge as builder
 
-COPY --from=registry.conarx.tech/containers/nodejs/edge:22.18.0 /opt/nodejs-22.18.0 /opt/nodejs-22.18.0
+COPY --from=registry.conarx.tech/containers/nodejs/edge:22.21.0 /opt/nodejs-22.21.0 /opt/nodejs-22.21.0
 
-ENV MATTERMOST_VER=10.12.1
+ENV MATTERMOST_VER=10.12.2
 
 
 
