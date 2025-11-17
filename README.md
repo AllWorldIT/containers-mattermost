@@ -58,11 +58,7 @@ Additional environment variables are available from...
 
 ## MATTERMOST_DATABASE_TYPE
 
-Mattermost database type, either `mariadb`, `mysql` or `postgresql`.
-
-## MYSQL_HOST, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD
-
-Database credentials if `MATTERMOST_DATABASE_TYPE` is set to `mariadb` or `mysql`.
+Mattermost database type, either `postgresql`.
 
 ## POSTGRES_HOST, POSTGRES_DATABASE, POSTGRES_USER, POSTGRES_PASSWORD
 
@@ -111,11 +107,11 @@ services:
   mattermost:
     image: registry.conarx.tech/containers/mattermost
     environment:
-      - MATTERMOST_DATABASE_TYPE=mysql
-      - MYSQL_HOST=mariadb-server
-      - MYSQL_DATABASE=mattermost
-      - MYSQL_USER=mattermost
-      - MYSQL_PASSWORD=mattermost
+      - MATTERMOST_DATABASE_TYPE=postgresql
+      - POSTGRES_HOST=mariadb-server
+      - POSTGRES_DATABASE=mattermost
+      - POSTGRES_USER=mattermost
+      - POSTGRES_PASSWORD=mattermost
     volumes:
       - ./data/mattermost:/var/lib/mattermost
       - ./data/mattermost-config:/etc/mattermost/config
@@ -125,11 +121,11 @@ services:
   mariadb-server:
     image: registry.conarx.tech/containers/mariadb
     environment:
-      - MYSQL_DATABASE=mattermost
-      - MYSQL_USER=mattermost
-      - MYSQL_PASSWORD=mattermost
+      - POSTGRES_DATABASE=mattermost
+      - POSTGRES_USER=mattermost
+      - POSTGRES_PASSWORD=mattermost
     volumes:
-      - ./data/mariadb:/var/lib/mysql
+      - ./data/mariadb:/var/lib/postgres
     networks:
       - external
 
