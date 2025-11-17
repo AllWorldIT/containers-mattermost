@@ -38,33 +38,6 @@ fdc_notice "Initializing Mattermost settings"
 
 # Work out database details
 case "$MATTERMOST_DATABASE_TYPE" in
-	mariadb|mysql)
-		if [ -z "$MYSQL_DATABASE" ]; then
-			fdc_error "Environment variable 'MYSQL_DATABASE' is required"
-			false
-		fi
-		# Check for a few things we need
-		if [ -z "$MYSQL_HOST" ]; then
-			fdc_error "Environment variable 'MYSQL_HOST' is required"
-			false
-		fi
-		if [ -z "$MYSQL_USER" ]; then
-			fdc_error "Environment variable 'MYSQL_USER' is required"
-			false
-		fi
-		if [ -z "$MYSQL_PASSWORD" ]; then
-			fdc_error "Environment variable 'MYSQL_PASSWORD' is required"
-			false
-		fi
-		database_type=mysql
-		database_host="tcp($MYSQL_HOST)"
-		database_name=$MYSQL_DATABASE
-		database_username=$MYSQL_USER
-		database_password=$MYSQL_PASSWORD
-		database_params="?charset=utf8mb4,utf8&collation=utf8mb4_general_ci"
-		database_datasource="$database_username:$database_password@$database_host/$database_name$database_params"
-		;;
-
 	postgres|postgresql)
 		# Check for a few things we need
 		if [ -z "$POSTGRES_DATABASE" ]; then
@@ -170,17 +143,4 @@ if [ "$database_type" = "postgres" ]; then
 
 	unset PGPASSWORD
 
-elif [ "$database_type" = "mysql" ]; then
-	export MYSQL_PWD="$MYSQL_PASSWORD"
-
-	while true; do
-		fdc_notice "Mattermost waiting for MySQL server '$MYSQL_HOST'..."
-		if mariadb-admin ping --silent --skip-ssl --host "$MYSQL_HOST" --user "$MYSQL_USER" --connect-timeout=2; then
-			fdc_notice "MySQL server is UP, continuing"
-			break
-		fi
-		sleep 1
-	done
-
-	unset MYSQL_PWD
 fi
