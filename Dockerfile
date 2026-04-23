@@ -21,6 +21,7 @@
 
 FROM registry.conarx.tech/containers/alpine/edge as builder
 
+COPY --from=registry.conarx.tech/containers/go/edge:1.26.4 /opt/go-1.26.4 /opt/go-1.26.4
 COPY --from=registry.conarx.tech/containers/nodejs/edge:24.14.1 /opt/nodejs-24.14.1 /opt/nodejs-24.14.1
 
 ENV MATTERMOST_VER=11.7.3
@@ -47,9 +48,7 @@ RUN set -eux; \
 		jq \
 		moreutils \
 		curl \
-		libpng-dev \
-		\
-		go
+		libpng-dev
 
 
 # Download Mattermost
