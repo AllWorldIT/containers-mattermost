@@ -21,10 +21,10 @@
 
 FROM registry.conarx.tech/containers/alpine/3.22 as builder
 
-COPY --from=registry.conarx.tech/containers/go/3.22:1.25.9 /opt/go-1.25.9 /opt/go-1.25.9
+COPY --from=registry.conarx.tech/containers/go/3.22:1.26.4 /opt/go-1.26.4 /opt/go-1.26.4
 COPY --from=registry.conarx.tech/containers/nodejs/3.22:24.14.1 /opt/nodejs-24.14.1 /opt/nodejs-24.14.1
 
-ENV MATTERMOST_VER=11.6.4
+ENV MATTERMOST_VER=11.7.3
 
 
 
